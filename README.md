@@ -1,1 +1,1 @@
-# cupid
+# cupid (Project 2)
