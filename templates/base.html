@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Cupid</title>
+        <link rel="stylesheet" href="/static/style.css"/>
+    </head>
+    <body>
+        {% if logged_in %}
+            <h3>Logged in as {{ user_name }}</h3>
+            <a href="/logout">Log Out</a>
+        {% else %}
+            <a href="/login">Log In</a>
+        {% endif %}    
+        
+        {% block main %}
+        {% endblock %}
+        <footer style="background-color: black; color: white;">copyright</footer>
+    </body>
+</html>

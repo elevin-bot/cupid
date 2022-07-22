@@ -1,0 +1,42 @@
+<h2>Register</h2>
+<form action="/register" method="post">
+    <p>
+        <label for="email">Email: </label>
+        <input id="email" name="email" size="30" required="required">
+    </p>
+    <p>
+        <label for="password">Password: </label>
+        <input id="password" type="password" name="password" required="required">
+    </p>
+    <p>
+        <label for="name">Name: </label>
+        <input id="name" name="name" required="required">
+    </p>
+    <p>
+        <label for="photo_url">Photo URL: </label>
+        <input id="photo_url" name="photo_url" size="50" required="required">
+    </p>
+    <p>
+        <label for="gender">Gender: </label>
+        <input type="radio" name="gender" required="required" value="m"> Male 
+        <input type="radio" name="gender" required="required" value="f"> Female
+    </p>
+    <p>
+        <label for="age">Age: </label>
+        <input  type="number" id="age" name="age" min="18" max="99" required="required">
+    </p>
+    <p>
+        <label for="pref_age_from">Preference Age from: </label>
+        <input type="number" id="pref_age_from" name="pref_age_from" min="18" max="99">
+        <label for="pref_age_to">to: </label>
+        <input  type="number" id="pref_age_to" name="pref_age_to" min="18" max="99">
+    </p>
+    <p>
+        <label for="pref_gender">Preference Gender: </label>
+        <input type="radio" name="gender" value="m"> Male 
+        <input type="radio" name="gender" value="f"> Female
+    </p>
+    <p>
+        <button>Register</button>
+    </p>
+</form>
