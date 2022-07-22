@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Profile Update</h2>
+<form action="/profile_update" method="post">
+    <p>
+        <label for="name">Name: </label>
+        <input id="name" name="name" required="required" value="{{profile.name}}">
+    </p>
+    <p>
+        <label for="photo_url">Photo URL: </label>
+        <input id="photo_url" name="photo_url" size="50" required="required" value="{{profile.photo_url}}">
+    </p>
+    <p>
+        <label for="gender">Gender: </label>
+        <input type="radio" name="gender" required="required" value="m" {% if "m" in profile.gender %}{{'checked="checked"'}}{% endif %}> Male 
+        <input type="radio" name="gender" required="required" value="f" {% if "f" in profile.gender %}{{'checked="checked"'}}{% endif %}> Female
+    </p>
+    <p>
+        <label for="age">Age: </label>
+        <input  type="number" id="age" name="age" min="18" max="99" required="required" value="{{profile.age}}">
+    </p>
+    <p>
+        <label for="pref_age_from">Preference Age from: </label>
+        <input type="number" id="pref_age_from" name="pref_age_from" min="18" max="99" value="{{profile.pref_age_from}}">
+        <label for="pref_age_to">to: </label>
+        <input  type="number" id="pref_age_to" name="pref_age_to" min="18" max="99" value="{{profile.pref_age_to}}">
+    </p>
+    <p>
+        <label for="pref_gender">Preference Gender: </label>
+        <input type="radio" name="gender" value="m" {% if 'm' in profile.pref_gender %}{{"checked"}}{% endif %}> Male 
+        <input type="radio" name="gender" value="f" {% if 'f' in profile.pref_gender %}{{"checked"}}{% endif %}> Female
+        <input type="radio" name="gender" value="o" {% if 'o' in profile.pref_gender %}{{"checked"}}{% endif %}> Other
+    </p>
+    <p>
+        <button>Register</button>
+    </p>
+</form>
+{% endblock %}

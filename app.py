@@ -67,6 +67,21 @@ def register():
               [email, password_hash, name, photo_url, gender, age, pref_age_from, pref_age_to, pref_gender])
     return redirect("/login")
 
+@app.route("/update_profile")
+def update_profile():
+    results = sql_select("SELECT name, photo_url, gender, age, pref_age_from, pref_age_to, pref_gender from users where id = %s", [session['user_id']])
+    res = results[0]
+    profile = {
+        'name': res[0],
+        'photo_url': res[1],
+        'gender': res[2],
+        'age': res[3],
+        'pref_age_from': res[4],
+        'pref_age_to': res[5],
+        'pref_gender': res[6]
+    }        
+    return render_template("profile_update.html", profile=profile)
+
 @app.route("/")
 def index():
     user = loggedin()
