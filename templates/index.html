@@ -1,6 +1,13 @@
 {% extends "base.html" %}
-
 {% block main %}
+{% if user.logged_in %}
+    <form action="/profile_update">
+        <p>
+            <button>Update Profile</button>
+        </p>
+    </form>
+{% endif %}
+
 <h1>Cupid</h1>
 <p>Over 90% of Cupid Daters are looking for a serious relationship. Can we introduce you?</p>
 

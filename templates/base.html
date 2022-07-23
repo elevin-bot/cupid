@@ -5,14 +5,24 @@
         <link rel="stylesheet" href="/static/style.css"/>
     </head>
     <body>
-        {% if logged_in %}
-            <h3>Logged in as {{ user_name }}</h3>
-            <a href="/update_profile">Update Profile</a>
-            <a href="/logout">Log Out</a>
-        {% else %}
-            <a href="/login">Log In</a>
-        {% endif %}    
-        
+            {% if user.logged_in %}
+                <h3>Logged in as {{ user.user_name }}</h3>
+                <div class="action">
+                    <form action="/logout">
+                    <button>Log out</button>
+                </form>
+            {% else %}
+            <div class="action">
+                <form action="/login">
+                    <button>Log in</button>
+                </form>
+            {% endif %}    
+            {% if request.path != "/" %}
+                <form action="/cancel">
+                    <button>Cancel</button>
+                </form>        
+            {% endif %}    
+            </div>
         {% block main %}
         {% endblock %}
         <footer style="background-color: black; color: white;">copyright</footer>

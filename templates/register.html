@@ -1,4 +1,7 @@
 <h2>Register</h2>
+<form action="/cancel">
+    <button>Cancel</button>
+</form>        
 <form action="/register" method="post">
     <p>
         <label for="email">Email: </label>
@@ -33,9 +36,9 @@
     </p>
     <p>
         <label for="pref_gender">Preference Gender: </label>
-        <input type="radio" name="gender" value="m"> Male 
-        <input type="radio" name="gender" value="f"> Female
-        <input type="radio" name="gender" value="o"> Other
+        <input type="radio" name="pref_gender" required value="m"> Male 
+        <input type="radio" name="pref_gender" required value="f"> Female
+        <input type="radio" name="pref_gender" required value="o"> Other
     </p>
     <p>
         <button>Register</button>

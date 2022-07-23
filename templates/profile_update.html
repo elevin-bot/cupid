@@ -13,8 +13,8 @@
     </p>
     <p>
         <label for="gender">Gender: </label>
-        <input type="radio" name="gender" required="required" value="m" {% if "m" in profile.gender %}{{'checked="checked"'}}{% endif %}> Male 
-        <input type="radio" name="gender" required="required" value="f" {% if "f" in profile.gender %}{{'checked="checked"'}}{% endif %}> Female
+        <input type="radio" name="gender" required="required" value="m" {{ "checked" if 'm' in profile.gender }}> Male 
+        <input type="radio" name="gender" required="required" value="f" {{ "checked" if 'f' in profile.gender }}> Female
     </p>
     <p>
         <label for="age">Age: </label>
@@ -28,12 +28,12 @@
     </p>
     <p>
         <label for="pref_gender">Preference Gender: </label>
-        <input type="radio" name="gender" value="m" {% if 'm' in profile.pref_gender %}{{"checked"}}{% endif %}> Male 
-        <input type="radio" name="gender" value="f" {% if 'f' in profile.pref_gender %}{{"checked"}}{% endif %}> Female
-        <input type="radio" name="gender" value="o" {% if 'o' in profile.pref_gender %}{{"checked"}}{% endif %}> Other
+        <input type="radio" name="pref_gender" required value="m" {{ "checked" if 'm' in profile.pref_gender }}> Male 
+        <input type="radio" name="pref_gender" required value="f" {{ "checked" if 'f' in profile.pref_gender }}> Female
+        <input type="radio" name="pref_gender" required value="o" {{ "checked" if 'o' in profile.pref_gender }}> Other
     </p>
     <p>
-        <button>Register</button>
+        <button>Update</button>
     </p>
 </form>
 {% endblock %}
