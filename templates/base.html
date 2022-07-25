@@ -3,16 +3,17 @@
     <head>
         <title>Cupid</title>
         <link rel="stylesheet" href="/static/style.css"/>
+        <script defer src="/static/script.js"></script>
     </head>
     <body>
+        <div class="action">        
             {% if user.logged_in %}
-                <h3>Logged in as {{ user.user_name }}</h3>
-                <div class="action">
-                    <form action="/logout">
-                    <button>Log out</button>
-                </form>
+                <div class="text">Logged in as {{ user.user_name }}</div>
+                <form action="/logout"><button>Log out</button></form>
+                {% if request.path == "/" %}
+                    <form action="/profile_update"><button>Update Profile</button></form>                
+                {% endif %}    
             {% else %}
-            <div class="action">
                 <form action="/login">
                     <button>Log in</button>
                 </form>
@@ -22,9 +23,8 @@
                     <button>Cancel</button>
                 </form>        
             {% endif %}    
-            </div>
+        </div>
         {% block main %}
         {% endblock %}
-        <footer style="background-color: black; color: white;">copyright</footer>
     </body>
 </html>

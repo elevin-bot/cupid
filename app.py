@@ -27,7 +27,6 @@ def login():
     email = request.form.get("email")
     password = request.form.get("password")
     results = sql_select("SELECT id, password_hash, name from users where email = %s", [email])
-    print(results)
     if results:
         user_id = results[0][0]
         hashed_password = results[0][1]
@@ -102,3 +101,18 @@ def cancel():
 def index():
     user = loggedin()
     return render_template("index.html", user=user)
+
+@app.route("/interests")
+def interests():
+    results = sql_select("select i.code, i.description, case when u.interest_code is null then False else True end as selected from interests i "
+                         "left join user_interests u on i.code = u.interest_code and  u.user_id = %s", [session['user_id']])
+    user = loggedin()
+    return render_template("interests.html", list=results, user=user) 
+
+@app.route("/interests_update", methods=["POST"])
+def interest_update():
+    list = request.form.getlist('interests[]')
+    print(list)
+    for item in list:
+        sql_write("insert into user_interests (user_id, interest_code) values(%s, %s)", [session['user_id'], item])
+    return redirect("/interests")

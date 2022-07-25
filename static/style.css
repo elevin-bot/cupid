@@ -1,7 +1,37 @@
 .action {
     display: flex;
+    align-items: center;
 }
 
 button {
     margin: 0 10px 0 0;
+}
+
+.text {
+    margin-right: 10px;
+}
+
+#interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    max-width: 500px;
+}
+
+.interest_item {
+    border-radius: 18px;
+    border: 1px solid black;
+    padding: 20px;
+    width: auto;
+    padding: 7px 10px;
+    font-size: 14px;
+}
+
+.selected {
+    color: rgb(227, 20, 62);
+    border-color: rgb(227,20,62);
+}
+
+#interest_update {
+    margin-left: 10px;
 }

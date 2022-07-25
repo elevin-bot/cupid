@@ -1,7 +1,6 @@
 {% extends "base.html" %}
-
 {% block main %}
-<h2>Profile Update</h2>
+<h3>Profile Update</h3>
 <form action="/profile_update" method="post">
     <p>
         <label for="name">Name: </label>
@@ -34,6 +33,7 @@
     </p>
     <p>
         <button>Update</button>
+        <button type="submit" formmethod="get" formaction="/interests">Select Interests</button>        
     </p>
 </form>
 {% endblock %}

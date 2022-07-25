@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="action">
+    <h3>Edit Interests</h3>
+    <form action="/interests_update" id="interests_update" method="post">
+        <button onclick="populate_interests()" id="interest_update">Update</button>
+    </form>
+</div>    
+<div id="interests">
+    {% for code, description, selected in list %}
+    <div onclick="interest(event)" style="cursor:pointer" id="{{code}}" class="interest_item {{'selected' if selected}}">{{description}}</div>
+    {% endfor %}
+</div>
+{% endblock %}
