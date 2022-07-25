@@ -91,16 +91,12 @@ def profile_update():
     args = get_args()
     sql_write("update users set name=%s, photo_url=%s, gender=%s, age=%s, pref_age_from=%s, pref_age_to=%s, pref_gender=%s where id =%s",
               [args['name'], args['photo_url'], args['gender'], args['age'], args['pref_age_from'], args['pref_age_to'], args['pref_gender'], session['user_id']])
+    session['user_name'] = args['name']
     return redirect("/")
 
 @app.route("/cancel")
 def cancel():
     return redirect("/")
-
-@app.route("/")
-def index():
-    user = loggedin()
-    return render_template("index.html", user=user)
 
 @app.route("/interests")
 def interests():
@@ -112,7 +108,17 @@ def interests():
 @app.route("/interests_update", methods=["POST"])
 def interest_update():
     list = request.form.getlist('interests[]')
-    print(list)
     for item in list:
         sql_write("insert into user_interests (user_id, interest_code) values(%s, %s)", [session['user_id'], item])
     return redirect("/interests")
+
+@app.route("/")
+def index():
+    user = loggedin()
+    results = sql_select("select m.name, m.id, m.age, u.pref_age_from, u.pref_age_to  from users u "
+                         "join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to "
+                         "where u.id = %s and m.id <> u.id and not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id)", [session['user_id']])
+
+
+    return render_template("index.html", user=user)
+
