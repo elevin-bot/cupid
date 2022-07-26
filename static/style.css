@@ -35,3 +35,21 @@ button {
 #interest_update {
     margin-left: 10px;
 }
+
+#name {
+    font-size: 18px;
+    font-weight: 200;
+    margin: 20px 0 5px 0;
+    width: 500px;
+}
+
+#image_buttons {
+    text-align: center;
+    width: 450px;
+}
+
+#title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 12px 0 8px 0;
+}

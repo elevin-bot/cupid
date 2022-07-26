@@ -115,10 +115,26 @@ def interest_update():
 @app.route("/")
 def index():
     user = loggedin()
-    results = sql_select("select m.name, m.id, m.age, u.pref_age_from, u.pref_age_to  from users u "
+    results = sql_select("select m.name, m.id, m.age, m.photo_url from users u "
                          "join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to "
-                         "where u.id = %s and m.id <> u.id and not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id)", [session['user_id']])
+                         "where u.id = %s and m.id <> u.id and not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id) limit 1", [session['user_id']])
+    bagel = {
+        'name': results[0][0],
+        'id': results[0][1],
+        'age': results[0][2],
+        'photo_url': results[0][3],
+    }
+    # Get interests for bagel
+    return render_template("index.html", user=user, bagel=bagel)
 
+@app.route("/like")
+def like():
+    id = request.args["id"]
+    # Update swipe table with a like
+    return redirect("/")
 
-    return render_template("index.html", user=user)
-
+@app.route("/nope")
+def nope():
+    id = request.args["id"]
+    # Update swipe table with a not like
+    return redirect("/")
