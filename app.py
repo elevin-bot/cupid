@@ -118,23 +118,25 @@ def index():
     results = sql_select("select m.name, m.id, m.age, m.photo_url from users u "
                          "join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to "
                          "where u.id = %s and m.id <> u.id and not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id) limit 1", [session['user_id']])
-    bagel = {
-        'name': results[0][0],
-        'id': results[0][1],
-        'age': results[0][2],
-        'photo_url': results[0][3],
-    }
-    # Get interests for bagel
-    return render_template("index.html", user=user, bagel=bagel)
+    if results:
+        bagel = {
+            'name': results[0][0],
+            'id': results[0][1],
+            'age': results[0][2],
+            'photo_url': results[0][3],
+        }
+        # Get interests for bagel
+        user_interests = sql_select("select i.code, i.description from interests i join user_interests u on i.code = u.interest_code and u.user_id = %s", [bagel['id']])
+        print(user_interests)
+    return render_template("index.html", user=user, bagel=bagel, user_interests=user_interests)
 
 @app.route("/like")
 def like():
-    id = request.args["id"]
-    # Update swipe table with a like
+    swiped_user_id = request.args["id"]
+    like = request.args["like"]
+    print(swiped_user_id)
+    print(like)
+    # Update swipe table with a like/not like
+    sql_write("insert into swiped (user_id, swiped_user_id, liked) values(%s, %s, %s)", [session['user_id'], swiped_user_id, like])
     return redirect("/")
 
-@app.route("/nope")
-def nope():
-    id = request.args["id"]
-    # Update swipe table with a not like
-    return redirect("/")

@@ -42,9 +42,9 @@ insert into interests values('art', 'Art'), ('cycling', 'Cycling'), ('soccer', '
                        ('gym', 'Gym'), ('cafe','Cafe-hoping'), ('camping', 'Camping'), ('dogs', 'Dogs'), ('cats', 'Cats');
 
 
-select m.name, m.id, m.age, u.pref_age_from, u.pref_age_to  from users u
-join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to
-where u.id = 1
-and   m.id <> u.id
-and   not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id);
+-- select m.name, m.id, m.age, u.pref_age_from, u.pref_age_to  from users u
+-- join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to
+-- where u.id = 1
+-- and   m.id <> u.id
+-- and   not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id);
 
