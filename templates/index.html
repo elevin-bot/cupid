@@ -11,6 +11,7 @@
     {% endfor %}
 </div>
 
+{% if bagel.id > 0 %}
 <div class="parent">
     <img id="image1" src="{{bagel.photo_url}}">
     <div id="image_buttons">
@@ -18,5 +19,6 @@
         <a href="/like?id={{bagel.id}}&like=True"><img  height="65" src="static/love.jpg" alt="Like"></a>
     </div>
 </div>
+{% endif %}   
 
 {% endblock %}

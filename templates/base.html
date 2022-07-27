@@ -8,6 +8,7 @@
     <body>
         <div class="action">        
             {% if user.logged_in %}
+                <img id="user_photo" src="{{user.user_photo}}" height="70">    
                 <div class="text">Logged in as {{ user.user_name }}</div>
                 <form action="/logout"><button>Log out</button></form>
                 {% if request.path == "/" %}

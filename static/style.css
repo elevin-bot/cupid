@@ -57,3 +57,7 @@ button {
 .parent {
     margin-top: 10px;
 }
+
+#user_photo {
+    margin-right: 10px;
+}

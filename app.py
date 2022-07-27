@@ -10,12 +10,14 @@ def loggedin():
     user = {
         'logged_in': False,
         'user_name': '',
-        'user_id': None
+        'user_id': None,
+        'user_photo': ''
     }
     if 'user_id' in session:
         user['user_name'] = session['user_name']
         user['logged_in'] = True
         user['user_id'] = session['user_id']
+        user['user_photo'] = session['user_photo']
     return user
 
 @app.route("/login")
@@ -26,16 +28,18 @@ def login_page():
 def login():
     email = request.form.get("email")
     password = request.form.get("password")
-    results = sql_select("SELECT id, password_hash, name from users where email = %s", [email])
+    results = sql_select("SELECT id, password_hash, name, photo_url from users where email = %s", [email])
     if results:
         user_id = results[0][0]
         hashed_password = results[0][1]
         user_name = results[0][2]
+        photo_url = results[0][3]
         # Verify password
         if bcrypt.checkpw(password.encode(), hashed_password.encode()):
             # Set id into session cookie
             session['user_id'] = user_id
             session['user_name'] = user_name
+            session['user_photo'] = photo_url
             return redirect("/")    
     return redirect("/login")
 
@@ -100,7 +104,7 @@ def cancel():
 
 @app.route("/interests")
 def interests():
-    results = sql_select("select i.code, i.description, case when u.interest_code is null then False else True end as selected from interests i "
+    results = sql_select("select distinct i.code, i.description, case when u.interest_code is null then False else True end as selected from interests i "
                          "left join user_interests u on i.code = u.interest_code and  u.user_id = %s", [session['user_id']])
     user = loggedin()
     return render_template("interests.html", list=results, user=user) 
@@ -114,20 +118,26 @@ def interest_update():
 
 @app.route("/")
 def index():
+    # Initialiase variables
+    bagel = {'name': '', 'id': 0}
+    user_interests = []
     user = loggedin()
-    results = sql_select("select m.name, m.id, m.age, m.photo_url from users u "
-                         "join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to "
-                         "where u.id = %s and m.id <> u.id and not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id) limit 1", [session['user_id']])
-    if results:
-        bagel = {
-            'name': results[0][0],
-            'id': results[0][1],
-            'age': results[0][2],
-            'photo_url': results[0][3],
-        }
-        # Get interests for bagel
-        user_interests = sql_select("select i.code, i.description from interests i join user_interests u on i.code = u.interest_code and u.user_id = %s", [bagel['id']])
-        print(user_interests)
+    if 'user_id' in session:
+        results = sql_select("select m.name, m.id, m.age, m.photo_url from users u "
+                            "join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to "
+                            "where u.id = %s and m.id <> u.id and not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id) limit 1", [session['user_id']])
+        bagel['name'] = 'No more bagels left'
+        if results:
+            bagel = {
+                'name': results[0][0],
+                'id': results[0][1],
+                'age': results[0][2],
+                'photo_url': results[0][3],
+            }
+            # Get interests for bagel
+            user_interests = sql_select("select distinct i.code, i.description from interests i join user_interests u on i.code = u.interest_code and u.user_id = %s", [bagel['id']])
+            print(user_interests)
+            print(bagel)
     return render_template("index.html", user=user, bagel=bagel, user_interests=user_interests)
 
 @app.route("/like")
