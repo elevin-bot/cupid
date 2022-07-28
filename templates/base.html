@@ -24,9 +24,11 @@
                     <button>Cancel</button>
                 </form>    
             {% else %}        
-            <form action="/matches">
-                <button>Your Matches</button>
-            </form>    
+                {% if user.logged_in %}
+                    <form action="/matches">
+                        <button>Your Matches</button>
+                    </form>    
+                {% endif %}    
             {% endif %}    
         </div>
         {% block main %}
