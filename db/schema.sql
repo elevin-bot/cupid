@@ -49,3 +49,5 @@ insert into interests values('art', 'Art'), ('cycling', 'Cycling'), ('soccer', '
 -- and   not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id);
 
 -- select i.code, i.description, case when u.interest_code is null then False else True end as selected from interests i left join user_interests u on i.code = u.interest_code and  u.user_id = 9;
+
+select distinct m.* from swiped s join swiped m on s.user_id = m.swiped_user_id and m.liked = True where s.user_id = 1;

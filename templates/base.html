@@ -8,7 +8,7 @@
     <body>
         <div class="action">        
             {% if user.logged_in %}
-                <img id="user_photo" src="{{user.user_photo}}" height="70">    
+                <img id="user_photo" src="{{user.user_photo}}" height="90">    
                 <div class="text">Logged in as {{ user.user_name }}</div>
                 <form action="/logout"><button>Log out</button></form>
                 {% if request.path == "/" %}
@@ -22,7 +22,11 @@
             {% if request.path != "/" %}
                 <form action="/cancel">
                     <button>Cancel</button>
-                </form>        
+                </form>    
+            {% else %}        
+            <form action="/matches">
+                <button>Your Matches</button>
+            </form>    
             {% endif %}    
         </div>
         {% block main %}
