@@ -1,3 +1,4 @@
+from unittest import result
 from flask import Flask, render_template, request, redirect, session
 import bcrypt, os
 from database import sql_select, sql_write
@@ -136,8 +137,6 @@ def index():
             }
             # Get interests for bagel
             user_interests = sql_select("select distinct i.code, i.description from interests i join user_interests u on i.code = u.interest_code and u.user_id = %s", [bagel['id']])
-            print(user_interests)
-            print(bagel)
     return render_template("index.html", user=user, bagel=bagel, user_interests=user_interests)
 
 @app.route("/like")
@@ -150,3 +149,8 @@ def like():
     sql_write("insert into swiped (user_id, swiped_user_id, liked) values(%s, %s, %s)", [session['user_id'], swiped_user_id, like])
     return redirect("/")
 
+@app.route("/matches")
+def matches():
+    results = sql_select("select name, age, photo_url from swiped s join users u on u.id = s.swiped_user_id and s.liked = True where s.user_id = %s", [session['user_id']])
+    user = loggedin()
+    return render_template("matches.html", matches=results, user=user) 

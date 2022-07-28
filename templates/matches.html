@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block main %}
+<div id="matches">
+    {% if not matches %}
+        <p>No matches yet, sorry</p>
+    {% else %}
+        {% for name, age, photo_url in matches %}
+            <div id="match_item">
+                <div>{{name}}: {{age}}</div>
+                <img id="match_image" src="{{photo_url}}">
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

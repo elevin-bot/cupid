@@ -61,3 +61,16 @@ button {
 #user_photo {
     margin-right: 10px;
 }
+
+#matches {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#match_image {
+    margin: 5px 10px 0 0;
+}
+
+#match_item {
+    margin: 20px 0;;
+}
