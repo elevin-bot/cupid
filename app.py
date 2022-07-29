@@ -1,4 +1,4 @@
-from unittest import result
+# from unittest import result
 from flask import Flask, render_template, request, redirect, session
 import bcrypt, os
 from database import sql_select, sql_write
@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.secret_key = SECRET_KEY.encode()
 
 def loggedin():
+    # Initialise user dictionary with user session
     user = {
         'logged_in': False,
         'user_name': '',
@@ -54,6 +55,7 @@ def register_page():
     return render_template("register.html")
 
 def get_args():
+    # Get user profile fields. Used in Register and profile update functions
     args = {
         'name': request.form.get("name")
      ,  'photo_url': request.form.get("photo_url")
@@ -105,6 +107,7 @@ def cancel():
 
 @app.route("/interests")
 def interests():
+    # Return a list of all the interest and a flag indicating a selected interest
     results = sql_select("select distinct i.code, i.description, case when u.interest_code is null then False else True end as selected from interests i "
                          "left join user_interests u on i.code = u.interest_code and  u.user_id = %s", [session['user_id']])
     user = loggedin()
@@ -124,6 +127,7 @@ def index():
     user_interests = []
     user = loggedin()
     if 'user_id' in session:
+        # Get next match satisfying user criteria (one match at a time)
         results = sql_select("select m.name, m.id, m.age, m.photo_url from users u "
                             "join users m on (u.pref_gender = m.gender or u.pref_gender = 'o') and m.age between u.pref_age_from and u.pref_age_to "
                             "where u.id = %s and m.id <> u.id and not exists (select 1 from swiped where user_id = u.id and swiped_user_id = m.id) limit 1", [session['user_id']])
@@ -151,6 +155,7 @@ def like():
 
 @app.route("/matches")
 def matches():
+    # Display all matches
     results = sql_select("select name, age, photo_url from swiped s join users u on u.id = s.swiped_user_id and s.liked = True where s.user_id = %s", [session['user_id']])
     user = loggedin()
     return render_template("matches.html", matches=results, user=user) 
