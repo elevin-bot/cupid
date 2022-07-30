@@ -27,5 +27,10 @@ No installation required. Just click on the URL.
 ![Cupid Database Diagram](database_diagram.png)
 
 ## Future Updates
+- Allow user to select and upload photo, and store it as a blob in the database or on S3 bucket
+- Add a check for unique email
+- Strong password check
 - Add unmatch option
-- Add chat option
+- Add unregister user account
+- Mobile responsive
+- Add chat option(API)

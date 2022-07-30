@@ -22,6 +22,19 @@ def loggedin():
         user['user_photo'] = session['user_photo']
     return user
 
+def get_args():
+    # Get user profile fields. Used in Register and profile update functions
+    args = {
+        'name': request.form.get("name")
+     ,  'photo_url': request.form.get("photo_url")
+     ,  'gender': request.form.get("gender")
+     ,  'age': int(request.form.get("age"))
+     ,  'pref_age_from': None if request.form.get("pref_age_from") == '' else int(request.form.get("pref_age_from"))
+     ,  'pref_age_to': None if request.form.get("pref_age_to") == '' else int(request.form.get("pref_age_to"))
+     ,  'pref_gender': request.form.get("pref_gender")
+    }
+    return args
+
 @app.route("/login")
 def login_page():
     return render_template("login.html")
@@ -53,19 +66,6 @@ def logout():
 @app.route("/register")
 def register_page():
     return render_template("register.html")
-
-def get_args():
-    # Get user profile fields. Used in Register and profile update functions
-    args = {
-        'name': request.form.get("name")
-     ,  'photo_url': request.form.get("photo_url")
-     ,  'gender': request.form.get("gender")
-     ,  'age': int(request.form.get("age"))
-     ,  'pref_age_from': None if request.form.get("pref_age_from") == '' else int(request.form.get("pref_age_from"))
-     ,  'pref_age_to': None if request.form.get("pref_age_to") == '' else int(request.form.get("pref_age_to"))
-     ,  'pref_gender': request.form.get("pref_gender")
-    }
-    return args
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -156,6 +156,9 @@ def like():
 @app.route("/matches")
 def matches():
     # Display all matches
-    results = sql_select("select name, age, photo_url from swiped s join users u on u.id = s.swiped_user_id and s.liked = True where s.user_id = %s", [session['user_id']])
+    results = sql_select("select name, age, photo_url "
+                         "from swiped s join users u on u.id = s.swiped_user_id and s.liked = True "
+                         "where s.user_id = %s "
+                         "and s.user_id in (select swiped_user_id from swiped where liked = True and user_id = s.swiped_user_id)", [session['user_id']])
     user = loggedin()
     return render_template("matches.html", matches=results, user=user) 
